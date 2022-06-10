@@ -23,6 +23,10 @@ async function run() {
   try {
     await client.connect();
     const itemCollection = client.db("STORE").collection("items");
+    
+    app.get("/", (req, res) => {
+      res.send("port a kiu paowa jaitese");
+    });
 
     app.get("/inventory", async (req, res) => {
       const query = {};
@@ -55,6 +59,22 @@ async function run() {
       res.send({
         success: true,
         message: `Successfully inserted ${items.name}!`,
+      });
+    });
+    app.put("/inventory/:id", async (req, res) => {
+      const items = req.body;
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      // console.log(items);
+      const updateItem ={
+        $set: items
+      }
+      const result = await itemCollection.updateOne(query, updateItem, options);
+      // console.log(result);
+      res.send({
+        success: true,
+        message: `Successfully Update ${updateItem.name}!`,
       });
     });
   } finally {
