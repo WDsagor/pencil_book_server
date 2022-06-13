@@ -35,6 +35,16 @@ async function run() {
     //   console.log(items);
       res.send(items);
     });
+    app.get("/inventory/:email", async (req, res) => {
+      const email = req.params.email;
+      // console.log(email);
+      const query = { email: email};
+      const cursor = itemCollection.find(query);
+        const items = await cursor.toArray();
+        // console.log(items);
+        res.send(items)
+      
+    });
     app.get("/inventory/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -70,7 +80,7 @@ async function run() {
       }
       // console.log(updateItem);
       const result = await itemCollection.updateOne(filter, updateItem);
-      console.log(result);
+      // console.log(result);
       res.send({
         success: true,
         message: `Successfully Update ${items.name}!`,
@@ -90,7 +100,7 @@ async function run() {
       }
   
       const result = await itemCollection.updateOne(filter, delivery);
-      console.log(result);
+      // console.log(result);
       res.send({
         success: true,
         message: `Successfully Update ${deliverItems.name}!`,
