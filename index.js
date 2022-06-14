@@ -35,20 +35,21 @@ async function run() {
     //   console.log(items);
       res.send(items);
     });
-    app.get("/inventory/:email", async (req, res) => {
+    app.get("/myitems/:email", async (req, res) => {
       const email = req.params.email;
       // console.log(email);
       const query = { email: email};
       const cursor = itemCollection.find(query);
-        const items = await cursor.toArray();
-        // console.log(items);
-        res.send(items)
+      const items = await cursor.toArray();
+      // console.log(items);
+      res.send(items)
       
     });
     app.get("/inventory/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await itemCollection.findOne(query);
+      // console.log(result);
       res.send(result);
     });
     app.delete("/inventory/:id", async (req, res) => {
@@ -62,6 +63,10 @@ async function run() {
 
       res.send({ success: true, message: "Successfully deleted " });
     });
+
+
+
+
     app.post("/inventory", async (req, res) => {
       const items = req.body;
       const result = await itemCollection.insertOne(items);
