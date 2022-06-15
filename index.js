@@ -49,7 +49,7 @@ async function run() {
       res.send("port a kiu paowa jaitese");
     });
 
-    app.get("/inventory", verifyToken, async (req, res) => {
+    app.get("/inventory", async (req, res) => {
       const query = {};
       const cursor = itemCollection.find(query);
       const items = await cursor.toArray();
